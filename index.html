@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הצעת מחיר - פלטפורמת Brainers Club</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        .section {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .section h2 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.3);
+        }
+        .section h3 { color: #a78bfa; font-size: 1.2rem; margin: 25px 0 15px 0; }
+        .section h4 { color: #f472b6; font-size: 1rem; margin: 20px 0 10px 0; }
+        p { margin-bottom: 15px; color: #b0b0b0; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px 15px; text-align: right; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        th { background: rgba(102, 126, 234, 0.2); color: #667eea; font-weight: 600; }
+        .total-row { background: rgba(102, 126, 234, 0.15) !important; font-weight: bold; }
+        .total-row td { color: #667eea; border-top: 2px solid rgba(102, 126, 234, 0.5); }
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .price-card {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(16, 185, 129, 0.15) 100%);
+            border: 2px solid rgba(34, 197, 94, 0.4);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        .price-card .days {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #22c55e;
+            line-height: 1;
+        }
+        .price-card .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-top: 15px;
+        }
+        .price-card .subtitle {
+            color: #888;
+            margin-top: 10px;
+        }
+        ul { list-style: none; padding: 0; }
+        ul li { padding: 8px 0; padding-right: 25px; position: relative; color: #b0b0b0; }
+        ul li:before { content: "✓"; position: absolute; right: 0; color: #22c55e; }
+        .warning-box {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .warning-box h4 { color: #fbbf24; margin-bottom: 10px; }
+        .info-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .info-box h4 { color: #60a5fa; margin-bottom: 10px; }
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0; }
+        .tech-badge {
+            background: rgba(102, 126, 234, 0.2);
+            color: #a5b4fc;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        .optional-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .optional-card h4 {
+            color: #a78bfa;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .optional-card .estimate {
+            background: rgba(167, 139, 250, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #a78bfa;
+        }
+        .optional-card p { font-size: 0.9rem; margin-bottom: 10px; }
+        .optional-card ul { margin-top: 10px; }
+        .optional-card ul li { font-size: 0.85rem; padding: 4px 0; padding-right: 30px; }
+        .optional-card .note {
+            font-size: 0.8rem;
+            color: #f472b6;
+            font-style: italic;
+            margin-top: 10px;
+        }
+        .category-header {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 10px 15px;
+            margin: 15px 0 10px 0;
+            border-radius: 8px;
+            color: #667eea;
+            font-weight: 600;
+        }
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            margin: 40px 0;
+        }
+        .approach-box {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .approach-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .approach-item .icon { font-size: 2rem; margin-bottom: 10px; }
+        .approach-item .title { color: #667eea; font-weight: 600; margin-bottom: 5px; }
+        .approach-item .desc { font-size: 0.85rem; color: #888; }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8rem; }
+            .price-card .days { font-size: 3rem; }
+            .price-card .price { font-size: 2rem; }
+            .approach-box { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>הצעת מחיר - פלטפורמת Brainers Club</h1>
+            <p style="color: #888;">פברואר 2026</p>
+        </div>
+
+        <!-- Overview -->
+        <div class="section">
+            <h2>סקירת הפרויקט</h2>
+            <p>
+                בניית פלטפורמת מועדון מלאה על בסיס הפרונטאנד הקיים מ-Lovable, עם מימוש Backend מלא.
+            </p>
+
+            <h3>גישה טכנית</h3>
+            <div class="approach-box">
+                <div class="approach-item">
+                    <div class="icon">📦</div>
+                    <div class="title">Main Repo</div>
+                    <div class="desc">תבנית בסיס עם כל הפיצ'רים</div>
+                </div>
+                <div class="approach-item">
+                    <div class="icon">🔀</div>
+                    <div class="title">Fork</div>
+                    <div class="desc">שכפול לכל מועדון</div>
+                </div>
+                <div class="approach-item">
+                    <div class="icon">🎨</div>
+                    <div class="title">Customize</div>
+                    <div class="desc">התאמת מיתוג ותוכן</div>
+                </div>
+            </div>
+
+            <p style="font-size: 0.9rem; color: #888;">
+                כל מועדון = קוד נפרד, דאטאבייס נפרד, תשלומים נפרדים.<br>
+                תיקוני באגים ופיצ'רים חדשים נכנסים ל-Main Repo ומתעדכנים ב-Forks לפי הצורך.
+            </p>
+
+            <h3>סטאק טכנולוגי</h3>
+            <div class="tech-stack">
+                <span class="tech-badge">Next.js 16</span>
+                <span class="tech-badge">TypeScript</span>
+                <span class="tech-badge">Supabase</span>
+                <span class="tech-badge">Tailwind CSS</span>
+                <span class="tech-badge">Vercel</span>
+                <span class="tech-badge">Bunny.net</span>
+                <span class="tech-badge">CardCom</span>
+                <span class="tech-badge">Resend</span>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Features Breakdown -->
+        <div class="section">
+            <h2>פירוט פיצ'רים כלולים</h2>
+
+            <!-- Infrastructure -->
+            <div class="category-header">🔧 תשתית (2.5 ימים)</div>
+            <table>
+                <tr>
+                    <td style="width: 60%;"><strong>מיגרציה ל-Next.js</strong></td>
+                    <td>המרת הפרונטאנד מ-Vite ל-Next.js App Router</td>
+                    <td style="text-align: left;">1.5</td>
+                </tr>
+                <tr>
+                    <td><strong>Supabase + Auth</strong></td>
+                    <td>הקמת DB + סכמה, התחברות עם Magic Link</td>
+                    <td style="text-align: left;">1</td>
+                </tr>
+            </table>
+
+            <!-- Learning -->
+            <div class="category-header">🎓 פלטפורמת למידה (3.5 ימים)</div>
+            <table>
+                <tr>
+                    <td style="width: 60%;"><strong>קורסים + שיעורים + וידאו</strong></td>
+                    <td>קטלוג, נגן עם Bunny.net, Theater Mode, מעקב התקדמות</td>
+                    <td style="text-align: left;">2.5</td>
+                </tr>
+                <tr>
+                    <td><strong>הקלטות + קטלוג</strong></td>
+                    <td>ספריית הקלטות עם סינון וחיפוש</td>
+                    <td style="text-align: left;">1</td>
+                </tr>
+            </table>
+
+            <!-- Community -->
+            <div class="category-header">👥 קהילה (3 ימים)</div>
+            <table>
+                <tr>
+                    <td style="width: 60%;"><strong>פיד + פוסטים + לייקים + תגובות</strong></td>
+                    <td>פיד חברתי ראשי עם אינטראקציה</td>
+                    <td style="text-align: left;">2</td>
+                </tr>
+                <tr>
+                    <td><strong>קבוצות + פידים</strong></td>
+                    <td>קהילות משנה לפי נושאים עם פיד משלהן</td>
+                    <td style="text-align: left;">0.5</td>
+                </tr>
+                <tr>
+                    <td><strong>@mentions</strong></td>
+                    <td>תיוג משתמשים בפוסטים ותגובות</td>
+                    <td style="text-align: left;">0.5</td>
+                </tr>
+            </table>
+
+            <!-- Events -->
+            <div class="category-header">📅 אירועים (1 יום)</div>
+            <table>
+                <tr>
+                    <td style="width: 60%;"><strong>אירועים + RSVP + תזכורות</strong></td>
+                    <td>רשימת אירועים, הרשמה, תזכורת במייל לפני האירוע</td>
+                    <td style="text-align: left;">1</td>
+                </tr>
+            </table>
+
+            <!-- Gamification -->
+            <div class="category-header">🏆 גיימיפיקציה (3.5 ימים)</div>
+            <table>
+                <tr>
+                    <td style="width: 60%;"><strong>XP + רמות + מטבעות</strong></td>
+                    <td>מערכת נקודות עם טריגרים אוטומטיים לפעולות</td>
+                    <td style="text-align: left;">1.5</td>
+                </tr>
+                <tr>
+                    <td><strong>לידרבורד</strong></td>
+                    <td>דירוג שבועי, חודשי, כל הזמנים</td>
+                    <td style="text-align: left;">0.5</td>
+                </tr>
+                <tr>
+                    <td><strong>הפניות</strong></td>
+                    <td>לינק הזמנה, מעקב הצטרפויות, צבירת נקודות</td>
+                    <td style="text-align: left;">1</td>
+                </tr>
+                <tr>
+                    <td><strong>אנימציות חגיגה</strong></td>
+                    <td>Confetti בהישגים</td>
+                    <td style="text-align: left;">0.5</td>
+                </tr>
+            </table>
+
+            <!-- Payments -->
+            <div class="category-header">💳 תשלומים (5 ימים)</div>
+            <table>
+                <tr>
+                    <td style="width: 60%;"><strong>אינטגרציית CardCom</strong></td>
+                    <td>חיבור לחשבון קיים, עיבוד תשלומים</td>
+                    <td style="text-align: left;">2</td>
+                </tr>
+                <tr>
+                    <td><strong>מנויים + עדכון כרטיס</strong></td>
+                    <td>ניהול מנוי, החלפת אמצעי תשלום</td>
+                    <td style="text-align: left;">1</td>
+                </tr>
+                <tr>
+                    <td><strong>Dunning</strong></td>
+                    <td>ניסיונות חיוב חוזרים אוטומטיים עם התראות</td>
+                    <td style="text-align: left;">1</td>
+                </tr>
+                <tr>
+                    <td><strong>ביטול + שימור</strong></td>
+                    <td>פופאפ עם הצעת הנחה כשמנסים לבטל</td>
+                    <td style="text-align: left;">1</td>
+                </tr>
+            </table>
+
+            <!-- Notifications -->
+            <div class="category-header">🔔 התראות (1.5 ימים)</div>
+            <table>
+                <tr>
+                    <td style="width: 60%;"><strong>מערכת + Real-time</strong></td>
+                    <td>התראות מיידיות - תגובות, לייקים, אזכורים, XP, תשלומים, אירועים</td>
+                    <td style="text-align: left;">1.5</td>
+                </tr>
+            </table>
+
+            <!-- Email -->
+            <div class="category-header">📧 מיילים (1 יום)</div>
+            <table>
+                <tr>
+                    <td style="width: 60%;"><strong>טרנזקציוני + רב מסר</strong></td>
+                    <td>מיילי Welcome, קבלות, תזכורות + Webhook לרב מסר לסיקוונסים</td>
+                    <td style="text-align: left;">1</td>
+                </tr>
+            </table>
+
+            <!-- AI -->
+            <div class="category-header">🤖 פיצ'רי AI (1 יום)</div>
+            <table>
+                <tr>
+                    <td style="width: 60%;"><strong>מנטור AI</strong></td>
+                    <td>צ'אט שמתאים שאלות לקורסים/שיעורים לפי מטאדאטה ומחזיר לינקים</td>
+                    <td style="text-align: left;">0.5</td>
+                </tr>
+                <tr>
+                    <td><strong>גלריית סוכני AI</strong></td>
+                    <td>קטלוג כלי AI עם וידאו הסבר וקישורים חיצוניים</td>
+                    <td style="text-align: left;">0.5</td>
+                </tr>
+            </table>
+
+            <!-- Search -->
+            <div class="category-header">🔍 חיפוש (1 יום)</div>
+            <table>
+                <tr>
+                    <td style="width: 60%;"><strong>חיפוש גלובלי</strong></td>
+                    <td>חיפוש בקורסים, הקלטות, אירועים, פוסטים, משתמשים, קבוצות</td>
+                    <td style="text-align: left;">1</td>
+                </tr>
+            </table>
+
+            <!-- Admin -->
+            <div class="category-header">⚙️ פאנל ניהול (4 ימים)</div>
+            <table>
+                <tr>
+                    <td style="width: 60%;"><strong>דאשבורד סטטיסטיקות</strong></td>
+                    <td>חיבור נתונים אמיתיים לממשק הקיים</td>
+                    <td style="text-align: left;">0.5</td>
+                </tr>
+                <tr>
+                    <td><strong>CMS קורסים + הקלטות</strong></td>
+                    <td>דפים ייעודיים ליצירה/עריכת קורסים ושיעורים <span style="color: #f472b6;">(UI חדש)</span></td>
+                    <td style="text-align: left;">2</td>
+                </tr>
+                <tr>
+                    <td><strong>ניהול אירועים + משתמשים</strong></td>
+                    <td>דפים ייעודיים לניהול <span style="color: #f472b6;">(UI חדש)</span></td>
+                    <td style="text-align: left;">1</td>
+                </tr>
+                <tr>
+                    <td><strong>מודרציה</strong></td>
+                    <td>מחיקת פוסטים, נעיצת הודעות</td>
+                    <td style="text-align: left;">0.5</td>
+                </tr>
+            </table>
+
+            <!-- Migration -->
+            <div class="category-header">📦 מיגרציה (3 ימים)</div>
+            <table>
+                <tr>
+                    <td style="width: 60%;"><strong>משתמשים + מנויים</strong></td>
+                    <td>ייבוא מיילים, שמות, סטטוס מנוי, טוקנים של CardCom</td>
+                    <td style="text-align: left;">1.5</td>
+                </tr>
+                <tr>
+                    <td><strong>תוכן</strong></td>
+                    <td>ייבוא קורסים, הקלטות, אירועים, קבוצות</td>
+                    <td style="text-align: left;">1</td>
+                </tr>
+                <tr>
+                    <td><strong>פוסטים + התקדמות</strong></td>
+                    <td>ייבוא פוסטים, תגובות, התקדמות משתמשים בקורסים</td>
+                    <td style="text-align: left;">0.5</td>
+                </tr>
+            </table>
+
+            <!-- Testing -->
+            <div class="category-header">✅ בדיקות והשקה (3 ימים)</div>
+            <table>
+                <tr>
+                    <td style="width: 60%;"><strong>בדיקות תשלומים</strong></td>
+                    <td>טסטים אוטומטיים לכל תרחישי התשלום</td>
+                    <td style="text-align: left;">1.5</td>
+                </tr>
+                <tr>
+                    <td><strong>QA + תיקון באגים</strong></td>
+                    <td>בדיקות ידניות ותיקונים</td>
+                    <td style="text-align: left;">1</td>
+                </tr>
+                <tr>
+                    <td><strong>Deploy + דוקומנטציה</strong></td>
+                    <td>הקמת Production, דומיין, תיעוד</td>
+                    <td style="text-align: left;">0.5</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Total Summary -->
+        <div class="section">
+            <h2>סיכום ימים</h2>
+            <table>
+                <tr>
+                    <th>קטגוריה</th>
+                    <th style="text-align: left;">ימים</th>
+                </tr>
+                <tr><td>תשתית</td><td style="text-align: left;">2.5</td></tr>
+                <tr><td>פלטפורמת למידה</td><td style="text-align: left;">3.5</td></tr>
+                <tr><td>קהילה</td><td style="text-align: left;">3</td></tr>
+                <tr><td>אירועים</td><td style="text-align: left;">1</td></tr>
+                <tr><td>גיימיפיקציה</td><td style="text-align: left;">3.5</td></tr>
+                <tr><td>תשלומים</td><td style="text-align: left;">5</td></tr>
+                <tr><td>התראות</td><td style="text-align: left;">1.5</td></tr>
+                <tr><td>מיילים</td><td style="text-align: left;">1</td></tr>
+                <tr><td>פיצ'רי AI</td><td style="text-align: left;">1</td></tr>
+                <tr><td>חיפוש</td><td style="text-align: left;">1</td></tr>
+                <tr><td>פאנל ניהול</td><td style="text-align: left;">4</td></tr>
+                <tr><td>מיגרציה</td><td style="text-align: left;">3</td></tr>
+                <tr><td>בדיקות והשקה</td><td style="text-align: left;">3</td></tr>
+                <tr class="total-row">
+                    <td><strong>סה"כ</strong></td>
+                    <td style="text-align: left;"><strong>32</strong></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Price Card -->
+        <div class="price-card">
+            <div class="days">32</div>
+            <div style="color: #86efac; font-size: 1.1rem;">ימי עבודה</div>
+            <div class="price">₪56,000</div>
+            <div class="subtitle">~2 חודשים</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Optional Features -->
+        <div class="section">
+            <h2>פיצ'רים אופציונליים</h2>
+            <p>ניתן להוסיף לפי הצורך. כל פיצ'ר דורש עבודה נוספת.</p>
+
+            <div class="optional-card">
+                <h4>
+                    הודעות פרטיות (צ'אט מלא)
+                    <span class="estimate">4 ימים | ₪7,000</span>
+                </h4>
+                <p>מערכת הודעות Real-time בין חברי הקהילה.</p>
+                <ul>
+                    <li>שיחות אחד-על-אחד</li>
+                    <li>היסטוריית הודעות</li>
+                    <li>משלוח מיידי עם Supabase Realtime</li>
+                    <li>חיווי הודעות שלא נקראו</li>
+                    <li>ממשק Inbox</li>
+                </ul>
+                <div class="note">* דורש UI חדש - לא קיים בפרונטאנד הנוכחי</div>
+            </div>
+
+            <div class="optional-card">
+                <h4>
+                    מדריך חברים
+                    <span class="estimate">1.5 ימים | ₪2,625</span>
+                </h4>
+                <p>רשימה מלאה של כל חברי הקהילה עם חיפוש.</p>
+                <ul>
+                    <li>תצוגת Grid/List של כל החברים</li>
+                    <li>חיפוש לפי שם</li>
+                    <li>סינון לפי רמה/תפקיד</li>
+                    <li>לחיצה למעבר לפרופיל</li>
+                </ul>
+                <div class="note">* דורש דף UI חדש - לא קיים בפרונטאנד הנוכחי</div>
+            </div>
+
+            <div class="optional-card">
+                <h4>
+                    מי מחובר (Real-time Presence)
+                    <span class="estimate">1 יום | ₪1,750</span>
+                </h4>
+                <p>הצגת חברים שפעילים כרגע בפלטפורמה.</p>
+                <ul>
+                    <li>נקודה ירוקה על אווטארים של מחוברים</li>
+                    <li>מונה "X חברים מחוברים" בסיידבר</li>
+                    <li>רשימת מחוברים כרגע</li>
+                </ul>
+            </div>
+
+            <div class="optional-card">
+                <h4>
+                    ספריית משאבים (העלאות חברים)
+                    <span class="estimate">2 ימים | ₪3,500</span>
+                </h4>
+                <p>אזור שיתוף קבצים קהילתי.</p>
+                <ul>
+                    <li>העלאת PDF, מסמכים, תבניות</li>
+                    <li>ארגון לפי קטגוריות</li>
+                    <li>חיפוש וגלישה</li>
+                    <li>מעקב הורדות</li>
+                </ul>
+                <div class="note">* דורש דף UI חדש וקומפוננטות העלאה - לא קיים בפרונטאנד הנוכחי</div>
+            </div>
+
+            <div class="optional-card">
+                <h4>
+                    אוטומציות WhatsApp
+                    <span class="estimate">2.5 ימים | ₪4,375</span>
+                </h4>
+                <p>שליחת הודעות WhatsApp דרך Green API לאירועים מרכזיים.</p>
+                <ul>
+                    <li>הודעת Welcome לחברים חדשים</li>
+                    <li>תזכורות לאירועים</li>
+                    <li>הודעות לחברים לא פעילים</li>
+                    <li>התראות על כשל בתשלום</li>
+                    <li>הגדרת תבניות הודעות באדמין</li>
+                </ul>
+                <div class="note">* דורש חשבון Green API (~$15/חודש לכל מועדון)</div>
+            </div>
+
+            <div class="optional-card">
+                <h4>
+                    בונה סיקוונסי מיילים
+                    <span class="estimate">4.5 ימים | ₪7,875</span>
+                </h4>
+                <p>בניית קמפיינים אוטומטיים מורכבים במקום רב מסר.</p>
+                <ul>
+                    <li>בונה ויזואלי לסיקוונסים באדמין</li>
+                    <li>לוגיקה מותנית (אם המשתמש עשה X, שלח Y)</li>
+                    <li>תזמון ודיליי</li>
+                    <li>אנליטיקס ומעקב</li>
+                </ul>
+                <div class="note">* עבודה משמעותית. שקלו להשתמש בכלי חיצוני (Loops, Customer.io) כחלופה</div>
+            </div>
+
+            <div class="optional-card">
+                <h4>
+                    לידרבורד לפי קטגוריה
+                    <span class="estimate">1.5 ימים | ₪2,625</span>
+                </h4>
+                <p>דירוגים נפרדים לכל קורס או קבוצה.</p>
+                <ul>
+                    <li>מובילים בכל קורס</li>
+                    <li>הכי פעילים בכל קבוצה</li>
+                    <li>סינון לפי תקופת זמן</li>
+                </ul>
+            </div>
+
+            <div class="optional-card">
+                <h4>
+                    תמיכה באנגלית (i18n)
+                    <span class="estimate">2 ימים | ₪3,500</span>
+                </h4>
+                <p>הוספת אנגלית כשפה שנייה.</p>
+                <ul>
+                    <li>מתג שפה בממשק</li>
+                    <li>תרגום כל הטקסטים</li>
+                    <li>מעבר RTL/LTR</li>
+                    <li>שמירת העדפת שפה למשתמש</li>
+                </ul>
+            </div>
+
+            <!-- Optional Summary -->
+            <div class="highlight-box" style="margin-top: 30px;">
+                <h4 style="color: #667eea; margin-bottom: 15px;">סיכום אופציונליים</h4>
+                <table>
+                    <tr>
+                        <th>פיצ'ר</th>
+                        <th>ימים</th>
+                        <th>מחיר</th>
+                    </tr>
+                    <tr>
+                        <td>הודעות פרטיות</td>
+                        <td>4</td>
+                        <td>₪7,000</td>
+                    </tr>
+                    <tr>
+                        <td>מדריך חברים</td>
+                        <td>1.5</td>
+                        <td>₪2,625</td>
+                    </tr>
+                    <tr>
+                        <td>מי מחובר</td>
+                        <td>1</td>
+                        <td>₪1,750</td>
+                    </tr>
+                    <tr>
+                        <td>ספריית משאבים</td>
+                        <td>2</td>
+                        <td>₪3,500</td>
+                    </tr>
+                    <tr>
+                        <td>אוטומציות WhatsApp</td>
+                        <td>2.5</td>
+                        <td>₪4,375</td>
+                    </tr>
+                    <tr>
+                        <td>בונה סיקוונסי מיילים</td>
+                        <td>4.5</td>
+                        <td>₪7,875</td>
+                    </tr>
+                    <tr>
+                        <td>לידרבורד לפי קטגוריה</td>
+                        <td>1.5</td>
+                        <td>₪2,625</td>
+                    </tr>
+                    <tr>
+                        <td>תמיכה באנגלית</td>
+                        <td>2</td>
+                        <td>₪3,500</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td><strong>כל האופציונליים</strong></td>
+                        <td><strong>19</strong></td>
+                        <td><strong>₪33,250</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Pricing Summary -->
+        <div class="section">
+            <h2>סיכום מחירים</h2>
+            <table>
+                <tr>
+                    <th>חבילה</th>
+                    <th>ימים</th>
+                    <th>מחיר</th>
+                </tr>
+                <tr>
+                    <td><strong>פיצ'רים הכרחיים</strong></td>
+                    <td>32</td>
+                    <td>₪56,000</td>
+                </tr>
+                <tr>
+                    <td><strong>כל האופציונליים</strong></td>
+                    <td>+19</td>
+                    <td>+₪33,250</td>
+                </tr>
+                <tr class="total-row">
+                    <td><strong>הכל ביחד</strong></td>
+                    <td><strong>51</strong></td>
+                    <td><strong>₪89,250</strong></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Maintenance -->
+        <div class="section">
+            <h2>תחזוקה ותמיכה</h2>
+
+            <div class="warning-box">
+                <h4>חשוב!</h4>
+                <p style="margin: 0;">
+                    כל מועדון (Brainers, Next Level, וכו') דורש חוזה תחזוקה נפרד.
+                </p>
+            </div>
+
+            <table>
+                <tr>
+                    <th style="width: 15%;">חבילה</th>
+                    <th style="width: 40%;">כולל</th>
+                    <th style="width: 15%;">ימים/חודש</th>
+                    <th style="width: 15%;">זמן תגובה</th>
+                    <th style="width: 15%;">מחיר חודשי</th>
+                </tr>
+                <tr>
+                    <td><strong>בסיסית</strong></td>
+                    <td>
+                        <span style="color: #e0e0e0;">תיקוני באגים</span><br>
+                        <span style="font-size: 0.85em; color: #888;">עדכוני אבטחה • ניטור זמינות</span>
+                    </td>
+                    <td>2</td>
+                    <td>5 ימים</td>
+                    <td><strong>₪4,000</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>סטנדרטית</strong></td>
+                    <td>
+                        <span style="color: #e0e0e0;">בסיסית + שיפורים ושינויי UI</span><br>
+                        <span style="font-size: 0.85em; color: #888;">התאמות קטנות • תמיכה מועדפת</span>
+                    </td>
+                    <td>5</td>
+                    <td>2 ימים</td>
+                    <td><strong>₪8,000</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>פרימיום</strong></td>
+                    <td>
+                        <span style="color: #e0e0e0;">הכל + פיתוח פיצ׳רים מתקדמים</span><br>
+                        <span style="font-size: 0.85em; color: #888;">ייעוץ טכני • עדיפות מקסימלית</span>
+                    </td>
+                    <td>10</td>
+                    <td style="color: #22c55e;"><strong>באותו יום</strong></td>
+                    <td><strong>₪15,000</strong></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Monthly Costs -->
+        <div class="section">
+            <h2>עלויות חודשיות (לא כלולות)</h2>
+            <table>
+                <tr>
+                    <th>שירות</th>
+                    <th>עלות חודשית</th>
+                </tr>
+                <tr>
+                    <td>Supabase Pro</td>
+                    <td>$25</td>
+                </tr>
+                <tr>
+                    <td>Vercel Pro</td>
+                    <td>$20</td>
+                </tr>
+                <tr>
+                    <td>Resend (מיילים)</td>
+                    <td>$20</td>
+                </tr>
+                <tr>
+                    <td>Bunny.net (וידאו)</td>
+                    <td>קיים</td>
+                </tr>
+                <tr>
+                    <td>CardCom</td>
+                    <td>קיים</td>
+                </tr>
+                <tr>
+                    <td>רב מסר</td>
+                    <td>קיים</td>
+                </tr>
+                <tr>
+                    <td>Green API (אם WhatsApp)</td>
+                    <td>~$15</td>
+                </tr>
+                <tr style="border-top: 2px solid rgba(102, 126, 234, 0.3);">
+                    <td style="color: #667eea;"><strong>סה"כ משוער</strong></td>
+                    <td style="color: #667eea;"><strong>~$65-80/חודש לכל מועדון</strong></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Timeline -->
+        <div class="section">
+            <h2>לוח זמנים</h2>
+            <p>משך משוער: <strong>~2 חודשים</strong> לפיצ'רים ההכרחיים</p>
+            <table>
+                <tr>
+                    <th>שלב</th>
+                    <th>תוכן</th>
+                    <th>שבוע</th>
+                </tr>
+                <tr>
+                    <td><strong>1</strong></td>
+                    <td>תשתית, Auth, מיגרציה ל-Next.js</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td><strong>2</strong></td>
+                    <td>פלטפורמת למידה (קורסים, וידאו)</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td><strong>3</strong></td>
+                    <td>קהילה, אירועים, גיימיפיקציה</td>
+                    <td>3-4</td>
+                </tr>
+                <tr>
+                    <td><strong>4</strong></td>
+                    <td>תשלומים ומנויים</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td><strong>5</strong></td>
+                    <td>אדמין, התראות, AI, חיפוש</td>
+                    <td>6</td>
+                </tr>
+                <tr>
+                    <td><strong>6</strong></td>
+                    <td>מיגרציה, בדיקות, השקה</td>
+                    <td>7-8</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- What's Included -->
+        <div class="section">
+            <h2>מה כלול</h2>
+            <ul>
+                <li>כל קוד המקור (בבעלותכם)</li>
+                <li>Main Repo + 2 Forks (Brainers + Next Level)</li>
+                <li>מיגרציה מהפלטפורמות הקיימות</li>
+                <li>העלאה ל-Production</li>
+                <li>תיעוד לאדמין ומשתמשים</li>
+                <li>30 יום תמיכה אחרי ההשקה</li>
+            </ul>
+
+            <h3 style="margin-top: 25px;">מה לא כלול</h3>
+            <ul style="list-style: none;">
+                <li style="padding-right: 25px; position: relative;">
+                    <span style="position: absolute; right: 0; color: #ef4444;">✗</span>
+                    עלויות אחסון שוטפות (Supabase, Vercel, וכו')
+                </li>
+                <li style="padding-right: 25px; position: relative;">
+                    <span style="position: absolute; right: 0; color: #ef4444;">✗</span>
+                    Forks נוספים למועדונים (תמחור נפרד)
+                </li>
+                <li style="padding-right: 25px; position: relative;">
+                    <span style="position: absolute; right: 0; color: #ef4444;">✗</span>
+                    אפליקציות Native (שלב עתידי)
+                </li>
+                <li style="padding-right: 25px; position: relative;">
+                    <span style="position: absolute; right: 0; color: #ef4444;">✗</span>
+                    פיצ'רים שלא מופיעים בהצעה זו
+                </li>
+            </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Next Steps -->
+        <div class="section">
+            <h2>שלבים הבאים</h2>
+            <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(102, 126, 234, 0.2); display: flex; align-items: center; justify-content: center; color: #667eea; font-weight: bold;">1</div>
+                    <span>סקירה ואישור היקף</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(102, 126, 234, 0.2); display: flex; align-items: center; justify-content: center; color: #667eea; font-weight: bold;">2</div>
+                    <span>חתימת הסכם</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(102, 126, 234, 0.2); display: flex; align-items: center; justify-content: center; color: #667eea; font-weight: bold;">3</div>
+                    <span>מקדמה 50% להתחלת עבודה</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(102, 126, 234, 0.2); display: flex; align-items: center; justify-content: center; color: #667eea; font-weight: bold;">4</div>
+                    <span>פגישת Kickoff</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(102, 126, 234, 0.2); display: flex; align-items: center; justify-content: center; color: #667eea; font-weight: bold;">5</div>
+                    <span>עדכוני התקדמות שבועיים</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; padding: 40px; color: #666;">
+            <p>הצעה זו בתוקף ל-30 יום</p>
+        </div>
+
+    </div>
+</body>
+</html>
