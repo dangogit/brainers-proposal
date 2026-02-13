@@ -170,11 +170,69 @@
         .approach-item .icon { font-size: 2rem; margin-bottom: 10px; }
         .approach-item .title { color: #667eea; font-weight: 600; margin-bottom: 5px; }
         .approach-item .desc { font-size: 0.85rem; color: #888; }
+        /* Tablet */
         @media (max-width: 768px) {
-            .header h1 { font-size: 1.8rem; }
+            body { padding: 20px 15px; }
+            .header { padding: 25px 20px; margin-bottom: 30px; }
+            .header h1 { font-size: 1.6rem; }
+            .section { padding: 20px 15px; }
+            .section h2 { font-size: 1.3rem; }
             .price-card .days { font-size: 3rem; }
             .price-card .price { font-size: 2rem; }
             .approach-box { grid-template-columns: 1fr; }
+
+            /* Tables - make them scrollable */
+            table { display: block; overflow-x: auto; white-space: nowrap; }
+            th, td { padding: 10px 12px; font-size: 0.9rem; }
+
+            /* Optional card header - stack on mobile */
+            .optional-card h4 {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            .optional-card .estimate { align-self: flex-start; }
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            body { padding: 15px 10px; }
+            .header { padding: 20px 15px; margin-bottom: 20px; border-radius: 12px; }
+            .header h1 { font-size: 1.3rem; line-height: 1.4; }
+            .section { padding: 15px 12px; margin-bottom: 20px; border-radius: 12px; }
+            .section h2 { font-size: 1.1rem; margin-bottom: 15px; }
+            .section h3 { font-size: 1rem; }
+            .category-header { padding: 8px 12px; font-size: 0.9rem; }
+
+            .price-card { padding: 20px 15px; }
+            .price-card .days { font-size: 2.5rem; }
+            .price-card .price { font-size: 1.6rem; }
+            .price-card .subtitle { font-size: 0.9rem; }
+
+            /* Tables - card layout on very small screens */
+            table { font-size: 0.85rem; }
+            th, td { padding: 8px 10px; }
+
+            .tech-stack { gap: 8px; }
+            .tech-badge { padding: 6px 12px; font-size: 0.8rem; }
+
+            .optional-card { padding: 15px; }
+            .optional-card p { font-size: 0.85rem; }
+            .optional-card ul li { font-size: 0.8rem; padding-right: 25px; }
+            .optional-card .note { font-size: 0.75rem; }
+
+            .warning-box, .info-box, .highlight-box { padding: 15px; }
+
+            .divider { margin: 25px 0; }
+
+            /* Next steps - make circles smaller */
+            .section > div[style*="flex"] > div[style*="40px"] {
+                width: 32px !important;
+                height: 32px !important;
+                font-size: 0.9rem !important;
+            }
+
+            ul li { font-size: 0.9rem; }
         }
     </style>
 </head>
